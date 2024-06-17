@@ -28,10 +28,10 @@ const AddTodo = () => {
     setTodos([...todos, newTodo]);
   }
 
-  // const create = async ( newItem: ) => {
+  // const create = async ( newItem:) => {
   //   try {
   //     await axios.post(
-  //       "http://localhost:8080/product/api",
+  //       "http://localhost:8080/api/graphql",
   //      newItem
   //     );
   //     console.log("success!");
