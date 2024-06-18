@@ -10,11 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { useTodo } from "../../app/_contexts/TodoContext";
+
 import { TodoType } from "../../lib/types";
 
 const AddTodo = () => {
-  const { todos, setTodos } = useTodo();
+  //const { todos, setTodos } = useTodo();
   const [inputVal, setInputVal] = useState<string>("");
 
   function addHandler() {
@@ -25,20 +25,9 @@ const AddTodo = () => {
       team: "My-1",
     };
 
-    setTodos([...todos, newTodo]);
+    //setTodos([...todos, newTodo]);
   }
 
-  // const create = async ( newItem:) => {
-  //   try {
-  //     await axios.post(
-  //       "http://localhost:8080/api/graphql",
-  //      newItem
-  //     );
-  //     console.log("success!");
-  //   } catch (err) {
-  //     console.error("Error:", err);
-  //   }
-  // };
   return (
     <div className="flex gap-2 max-w-[700px] m-auto mb-[40px]">
       <Input

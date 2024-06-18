@@ -1,0 +1,39 @@
+query GetAllTodos {
+  getTodos {
+    _id
+    status
+    title
+  }
+}
+
+query GetSingleTodo($todoId: ID!) {
+  getTodo(id: $todoId) {
+    _id
+    status
+    title
+  }
+}
+
+mutation CreateTodo($newTodoTitle: String!, $newTodoStatus: TodoStatus!) {
+  createItem(title: $newTodoTitle, status: $newTodoStatus) {
+    _id
+    status
+    title
+  }
+}
+
+mutation DeleteTodoItem($deleteTodoId: ID!) {
+  deleteItem(id: $deleteTodoId)
+}
+
+mutation UpdateTodo(
+  $updateTodoId: ID!
+  $updatedTitle: String
+  $updatedStatus: TodoStatus
+) {
+  updateItem(id: $updateTodoId, title: $updatedTitle, status: $updatedStatus) {
+    _id
+    status
+    title
+  }
+}

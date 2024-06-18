@@ -11,23 +11,38 @@ import {
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/Card";
 import ListItem from "./ListItem";
-import { TodoType } from "@/lib/types";
-import { useState } from "react";
-import { useTodo } from "../_contexts/TodoContext";
+import { useState, useEffect } from "react";
 
 export function TodoList() {
-  const { todos } = useTodo();
-  console.log(todos)
+  const { todos, setTodos } = useState([]);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch("/api/graphql");
+        if (!response.ok) {
+          throw new Error("Failed to fetch");
+        }
+        const data = await response.json();
+        setTodos(data.todos);
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+
+    fetchTodos();
+  }, []);
+
   return (
     <Card className="w-[700px] m-auto">
       <Table>
         <TableCaption>A list of todos</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Title</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Teams</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableCell>Title</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Teams</TableCell>
+            <TableCell className="text-right">Actions</TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
