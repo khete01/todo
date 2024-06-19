@@ -1,4 +1,5 @@
 "use client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Table,
   TableBody,
@@ -11,27 +12,23 @@ import {
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/Card";
 import ListItem from "./ListItem";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+
+import {
+  useCreateTodoMutation,
+  useDeleteTodoItemMutation,
+  useGetAllTodosQuery,
+  useUpdateTodoMutation,
+} from "@/generated";
 
 export function TodoList() {
-  const { todos, setTodos } = useState([]);
+  const { loading, error, data } = useGetAllTodosQuery();
+  const [createTodo] = useCreateTodoMutation();
+  const [deleteTodo] = useDeleteTodoItemMutation();
+  const [updateTodo] = useUpdateTodoMutation();
 
-  useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await fetch("/api/graphql");
-        if (!response.ok) {
-          throw new Error("Failed to fetch");
-        }
-        const data = await response.json();
-        setTodos(data.todos);
-      } catch (error) {
-        console.error("Error fetching todos:", error);
-      }
-    };
-
-    fetchTodos();
-  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <Card className="w-[700px] m-auto">
@@ -46,14 +43,14 @@ export function TodoList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {todos.map((todo, index) => (
-            <ListItem key={index} todo={todo} />
+          {data.getTodos.map((todo) => (
+            <ListItem key={todo._id} todo={todo} />
           ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">{todos.length}</TableCell>
+            <TableCell className="text-right">{data.getTodos.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
